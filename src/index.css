@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------
+   BASE (глобальные настройки страницы)
+------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    /* Глобальный фон, цвет текста и основной шрифт */
+    @apply bg-bm-bg text-bm-text font-body;
+  }
+
+  /* Все заголовки — шрифтом heading */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
+
+/* -------------------------------------------------------
+   COMPONENTS (кастомные классы)
+------------------------------------------------------- */
+@layer components {
+  /* --------------------
+     Layout / Panels
+  -------------------- */
+
+  /* Glass header / panels  */
+  .glass {
+    @apply bg-bm-surface/60 backdrop-blur-md border-b border-bm-border;
+  }
+
+  /* Базовая карточка  */
+  .card {
+    @apply rounded-2xl bg-bm-surface border border-bm-border shadow-soft;
+  }
+
+  /* --------------------
+     Navigation / Links
+  -------------------- */
+
+  /* Навигационная ссылка  */
+  .nav-link {
+    @apply text-bm-text/80 hover:text-bm-text transition;
+  }
+
+  /* --------------------
+     Buttons
+  -------------------- */
+
+  /* Accent outline button (например Sign up) */
+  .btn-outline-accent {
+    @apply px-4 py-1.5 rounded-full border border-bm-accent text-bm-accent
+           transition-all duration-200
+           hover:bg-bm-accent hover:text-bm-bg hover:shadow-sm
+           active:scale-95
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bm-accent/60;
+  }
+
+  /* Ghost button (например Sign in / Logout) */
+  .btn-ghost {
+    @apply px-4 py-1.5 rounded-full text-bm-text/80
+           hover:text-bm-text hover:bg-white/5
+           transition
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bm-accent/50;
+  }
+
+  /* --------------------
+     Icons
+  -------------------- */
+
+  /* Маленькая “книжная” иконка (используется в Footer/Branding) */
+  .book-icon {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 2px 0 0 rgba(43, 128, 72, 0.65);
+  }
+
+  .book-icon::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 3px;
+    right: 3px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow:
+      0 3px 0 rgba(255, 255, 255, 0.18),
+      0 6px 0 rgba(255, 255, 255, 0.14);
+  }
+
+  .book-icon::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: -2px;
+    width: 6px;
+    height: 4px;
+    border-radius: 0 0 2px 2px;
+    background: rgba(43, 128, 72, 0.55);
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35));
+  }
+
+  /* --------------------
+     Forms
+  -------------------- */
+
+  /* Универсальный input  */
+  .input {
+    @apply w-full rounded-xl border border-white/10 bg-white/5
+           px-4 py-3 text-bm-text
+           placeholder:text-bm-text/35
+           transition
+           focus:outline-none focus:ring-2 focus:ring-bm-accent/50 focus:border-transparent;
+  }
+
+  /* Чуть “академичнее” поле даты */
+  .date-input {
+    color-scheme: dark; /* просит браузер рисовать контролы в тёмной теме */
+  }
+
+  /* Иконка календаря (Chrome/Edge) */
+  .date-input::-webkit-calendar-picker-indicator {
+    opacity: 0.8;
+    filter: invert(1); /* делает иконку светлой на тёмном фоне */
+    cursor: pointer;
+  }
+
+  /* --------------------
+     Archive look (главная фишка стиля)
+  -------------------- */
+
+  /* Архивная карточка (с текстурой под стеклом)*/
+  .card-archive {
+    @apply relative rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md;
+    overflow: hidden;
+  }
+
+  .card-archive::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    /* Parchment texture */
+    background-image: url("/parchment.webp");
+    background-repeat: repeat;
+    background-size: 700px 700px; /* фикс размер текстуры */
+
+    opacity: 0.14;
+
+    /* На тёмном фоне soft-light даёт “встроенную” текстуру без грязи */
+    mix-blend-mode: soft-light;
+    filter: contrast(1.15) brightness(0.95);
+
+    pointer-events: none;
+  }
+}
