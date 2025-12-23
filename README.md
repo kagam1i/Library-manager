@@ -3,7 +3,7 @@
 > *A quiet digital library where every book you add finds its place on the shelf — instantly and forever.*
 
 **LibraManage** is a small pet-project built with **React + Vite + Tailwind CSS** in a **Dark Academia** aesthetic.  
-It includes mock authentication (no backend yet), protected routes, a personal library with genre filtering, a book creation form, and a modal for reading details & deleting entries.
+It includes mock authentication (stored in Redux and persisted in localStorage), protected routes, a personal library with genre filtering, a book creation form, and a modal for viewing and deleting books.
 
 ---
 
@@ -33,26 +33,64 @@ It includes mock authentication (no backend yet), protected routes, a personal l
 
 ## ✨ Features
 
-### 🔐 Authentication (mock, no backend yet)
+### 🔐 Authentication (mock + persisted)
 - **Sign In / Sign Up** pages with validation (touched + blur)
-- Header navigation changes depending on auth state
+- Authentication state stored in **Redux Toolkit (`authSlice`)**
+- User session persists via **localStorage** (refresh doesn’t log you out)
+- Header navigation updates automatically based on auth state
 - **Protected routes**:
   - non-authorized users **don’t see** `Library` and `Add book` in the header
   - direct access to `/library` and `/addBook` is blocked via `<ProtectedRoute />`
+  - auth state is read directly from Redux
 
-### 🗃️ Books library
+
+### 🗃️ Books library (Redux + persisted)
+- Books stored in **Redux Toolkit (`booksSlice`)**
+- Library persists via **localStorage** (books survive page reload)
 - Books grid (cards)
 - Book details in a modal
 - Delete a book from the modal
-- **Genre filter** (genres are derived dynamically from the books you add)
+- **Genre filter** (derived dynamically from current books)
 - Empty state supports:
   - “library is empty”
   - “no books for this filter”
+
 
 ### 🕯️ Dark Academia UI
 - “Archive glass” cards with parchment texture (`.card-archive`)
 - Atmospheric background images + overlay gradients
 - Consistent typography (serif titles + serif body)
+
+---
+
+## 🧠 State Management (Redux Toolkit)
+
+This project uses **Redux Toolkit** to manage global state across pages (not only between components).
+
+### Redux slices
+- **`booksSlice`**
+  - Stores all books in `state.books.items`
+  - Actions: `addBook`, `removeBook`
+  - Selector: `selectBooks`
+
+- **`authSlice`**
+  - Stores current user in `state.auth.user`
+  - Actions: `signIn`, `signUp`, `signOut`
+  - Selectors: `selectUser`, `selectIsAuth`
+
+### Persistence (localStorage)
+Redux state is persisted to localStorage:
+
+- Books key: `books-manager-books`
+- User key: `books-manager-user`
+
+**Implementation approach:**
+- Initial Redux state is loaded from localStorage (`loadBooks()`, `loadUser()`)
+- `store.subscribe()` automatically saves updated state after each dispatch
+- Components never interact with localStorage directly
+
+### Protected Routes
+`<ProtectedRoute />` checks authorization via Redux selector (`selectIsAuth`) and blocks access to protected pages.
 
 ---
 
@@ -83,6 +121,9 @@ These are the main theme tokens used across the UI.
 - Vite
 - Tailwind CSS
 - React Router DOM
+- Redux Toolkit
+- React Redux
+- localStorage (state persistence)
 
 ---
 
@@ -107,7 +148,14 @@ src/
     Library.jsx
     SignIn.jsx
     SignUp.jsx
-  redux/              # reserved for the next step (Redux Toolkit)
+  redux/
+    store.js
+    booksSlice.js
+    authSlice.js
+  shared/
+    storage/
+      booksStorage.js
+      authStorage.js
   App.jsx
   main.jsx
   index.css
