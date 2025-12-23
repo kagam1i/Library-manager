@@ -34,12 +34,17 @@ const booksSlice = createSlice({
                     }
                 }
             }
+        },
+        // action - "удали книгу из Redux по id"
+        removeBook(state, action) {
+            const idToRemove = action.payload;
+            state.items = state.items.filter((book) => book.id !== idToRemove);
         }
     }
 });
 
-// Экспортируем action — команду положить книги в store
-export const { setBooksFromApp, addBook } = booksSlice.actions;
+// Экспортируем action-ы
+export const { setBooksFromApp, addBook, removeBook } = booksSlice.actions;
 
 // reducer — это “движок” slice-а.
 // Store будет знать: "состояние books обслуживает вот этот reducer".

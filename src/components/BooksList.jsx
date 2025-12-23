@@ -9,9 +9,8 @@ export const BooksList = ({ books = [], allBooks = [], onRemoveBook }) => {
 
   const hasBooksInLibrary = allBooks.length > 0;
 
-  // удаление книги:
-  // удаляем книгу из общего массива (в App.jsx)
-  // закрываем модалку, чтобы не показывать удалённую книгу
+// удаление книги:
+// просим "внешний уровень" (страницу Library) удалить книгу 
   const handleDelete = (id) => {
     onRemoveBook?.(id);
     setSelectedBook(null);

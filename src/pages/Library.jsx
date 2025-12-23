@@ -1,10 +1,20 @@
 import { useState, useEffect } from "react";
 import { BooksList } from "../components/BooksList";
 
-import { useSelector } from "react-redux";
-import { selectBooks } from "../redux/booksSlice";
+import { useSelector, useDispatch} from "react-redux";
+import { selectBooks, removeBook } from "../redux/booksSlice";
 
-export const Library = ({ onRemoveBook }) => {
+export const Library = () => {
+  // диспетчер Redux
+  const dispatch = useDispatch();
+
+  // функция удаления книги через Redux
+  const onRemoveBook = (id) => {
+    // отправляем action в Redux на удаление книги по id
+    dispatch(removeBook(id));
+  };
+
+
   // чтение книг из Redux store
     const books = useSelector(selectBooks);
 
