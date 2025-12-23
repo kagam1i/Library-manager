@@ -15,31 +15,11 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
 
-  // состояние пользователя - авторизован/не авторизован
-  const [user, setUser] = useState(null);
-
-  // логин (просто сохраняем пользователя в state)
-  const handleSignIn = (payload) => {
-    setUser(payload);
-  }
-
-  // регистрация 
-  const handleSignUp = (payload) => {
-    setUser(payload);
-  }
-
-  // выход
-  const handleSignOut = () => {
-    setUser(null);
-  }
-
-
-
   return (
     <BrowserRouter>
       <div className="min-h-screen flex flex-col">
         {/* передаем в Header информацию об авторизации */}
-        <Header user={user} onSignOut={handleSignOut} />
+        <Header />
 
         <div className="flex-1">
           <Routes>
@@ -49,7 +29,7 @@ function App() {
             <Route
               path='/addBook'
               element={
-                <ProtectedRoute user={user}>
+                <ProtectedRoute >
                   <AddBook />
                 </ProtectedRoute>
               }
@@ -59,14 +39,14 @@ function App() {
             <Route
               path='/library'
               element={
-                <ProtectedRoute user={user}>
+                <ProtectedRoute >
                   <Library />
                 </ProtectedRoute>
               }
             />
 
-            <Route path="/signIn" element={<SignIn onSignIn={handleSignIn} />} />
-            <Route path="/signUp" element={<SignUp onSignUp={handleSignUp} />} />
+            <Route path="/signIn" element={<SignIn />} />
+            <Route path="/signUp" element={<SignUp />} />
           </Routes>
         </div>
 

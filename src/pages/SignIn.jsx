@@ -2,8 +2,10 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Field } from '../components/UI/Field'
+import { signIn } from "../redux/authSlice";
 
-export const SignIn = ({ onSignIn }) => {
+export const SignIn = () => {
+
   const navigate = useNavigate(); // переход на другую страницу с помощью кода
 
   const [email, setEmail] = useState('')
@@ -67,8 +69,7 @@ export const SignIn = ({ onSignIn }) => {
     const isValid = validate()
     if (!isValid) return;
 
-    // т.к. нет бека - просто считаем вход успешным
-    onSignIn?.({ email: email.trim() });
+    dispatch(signIn({ email: email.trim() }));
 
     navigate('/addBook')
   }
@@ -109,11 +110,10 @@ export const SignIn = ({ onSignIn }) => {
                 <form onSubmit={handleSubmit} className="grid gap-5">
                   <Field label="Email *" error={touched.email && error.email}>
                     <input
-                      className={`input transition-all duration-200 ${
-                        touched.email && error.email
+                      className={`input transition-all duration-200 ${touched.email && error.email
                           ? "ring-2 ring-red-500/40"
                           : ""
-                      }`}
+                        }`}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       onBlur={() => handleBlur("email")}
@@ -127,11 +127,10 @@ export const SignIn = ({ onSignIn }) => {
                   >
                     <input
                       type="password"
-                      className={`input transition-all duration-200 ${
-                        touched.password && error.password
+                      className={`input transition-all duration-200 ${touched.password && error.password
                           ? "ring-2 ring-red-500/40"
                           : ""
-                      }`}
+                        }`}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       onBlur={() => handleBlur("password")}
@@ -143,10 +142,9 @@ export const SignIn = ({ onSignIn }) => {
                     type="submit"
                     disabled={!canSubmit}
                     className={`mt-1 px-6 py-2.5 rounded-full font-semibold tracking-wide transition-all
-                      ${
-                        canSubmit
-                          ? "bg-bm-accent text-bm-bg hover:brightness-110 active:scale-95"
-                          : "bg-white/10 text-bm-text/40 cursor-not-allowed"
+                      ${canSubmit
+                        ? "bg-bm-accent text-bm-bg hover:brightness-110 active:scale-95"
+                        : "bg-white/10 text-bm-text/40 cursor-not-allowed"
                       }`}
                   >
                     Sign in

@@ -1,13 +1,23 @@
 import { Link, NavLink } from "react-router-dom";
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, signOut } from "../redux/authSlice";
 
-export const Header = ({ user, onSignOut }) => {
+
+export const Header = () => {
+
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    dispatch(signOut());
+  };
 
   const navClass = ({ isActive }) =>
     `relative px-2 py-1 transition ${isActive ? "text-bm-text" : "text-bm-text/80 hover:text-bm-text"
     }`;
 
-    
+
   return (
     <header className="sticky top-0 z-20 glass">
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3">
@@ -55,10 +65,7 @@ export const Header = ({ user, onSignOut }) => {
 
             {/* Если авторизован → Logout */}
             {user && (
-              <button
-                onClick={onSignOut}
-                className="btn-ghost"
-              >
+              <button onClick={handleSignOut} className="btn-ghost">
                 Logout
               </button>
             )}

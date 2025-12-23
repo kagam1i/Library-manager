@@ -1,8 +1,12 @@
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsAuth } from "../redux/authSlice";
 
-export const ProtectedRoute = ({ user, children }) => {
+export const ProtectedRoute = ({ children }) => {
+  const isAuth = useSelector(selectIsAuth);
+
   // если пользователь не авторизован — отправляем на SignIn
-  if (!user) {
+  if (!isAuth) {
     return <Navigate to="/signIn" replace />;
   }
 
