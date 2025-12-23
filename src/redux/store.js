@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import booksReducer from "../redux/bookSlice.js";
+import booksReducer from "./booksSlice.js";
 
 // store.js в данном проекте - общий “шкаф” для всего состояния приложения
 

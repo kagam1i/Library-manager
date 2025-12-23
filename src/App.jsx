@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Header } from './components/Header';
@@ -11,6 +11,9 @@ import { Library } from './pages/Library';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 
+import { setBooksFromApp } from './redux/booksSlice';
+import { useDispatch } from 'react-redux';
+
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
@@ -19,6 +22,13 @@ function App() {
 
   // состояние пользователя - авторизован/не авторизован
   const [user, setUser] = useState(null);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // при изменении массива книг обновляем состояние в Redux
+    dispatch(setBooksFromApp(books));
+  },[]); //пустой массив зависимостей означает, что эффект выполнится только один раз при монтировании компонента
 
   // функция для добавления книги
   const handleAddBook = (newBook) => {

@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { BooksList } from "../components/BooksList";
 
-export const Library = ({ books = [], onRemoveBook }) => {
+import { useSelector } from "react-redux";
+import { selectBooks } from "../redux/booksSlice";
+
+export const Library = ({ onRemoveBook }) => {
+  // чтение книг из Redux store
+    const books = useSelector(selectBooks);
+
+
   //выбранный жанр
   const [selectedGenre, setSelectedGenre] = useState("All");
 
@@ -37,6 +44,7 @@ export const Library = ({ books = [], onRemoveBook }) => {
   if (selectedGenre !== "All") {
     filteredBooks = books.filter((book) => book.genre.trim() === selectedGenre);
   }
+  
 
   return (
     <main className="min-h-[70vh]">
