@@ -73,7 +73,7 @@ function App() {
               path='/addBook'
               element={
                 <ProtectedRoute user={user}>
-                  <AddBook onAddBook={handleAddBook} />
+                  <AddBook />
                 </ProtectedRoute>
               }
             />

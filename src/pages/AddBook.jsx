@@ -1,7 +1,19 @@
 import React from "react";
 import { BookForm } from "../components/BookForm";
+import { useDispatch } from "react-redux";
+import { addBook } from "../redux/booksSlice";
 
 export const AddBook = ({ onAddBook }) => {
+
+  // функция для обработки добавления книги из формы
+  const dispatch = useDispatch();
+
+  // функция для добавления книги
+  const handleAddBook = (newBook) => {
+    dispatch(addBook(newBook));
+  };
+
+
   return (
     <main className="min-h-[70vh]">
       {/* секция с фоном */}
@@ -31,7 +43,7 @@ export const AddBook = ({ onAddBook }) => {
           </div>
 
           {/* передача onAddBook в форму, чтобы она могла добавить книгу */}
-          <BookForm onAddBook={onAddBook} />
+          <BookForm onAddBook={handleAddBook} />
         </div>
       </section>
     </main>
