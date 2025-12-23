@@ -1,6 +1,6 @@
 export const BookCard = ({ book, onOpen }) => {
   return (
-    <div className="card-archive p-4 flex flex-col gap-4">
+    <div className="card-archive p-4 flex flex-col gap-4 max-w-[260px] mx-auto">
       {/* обложка */}
       <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10">
         {book.cover ? (

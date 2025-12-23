@@ -2,7 +2,6 @@ export const BookModal = ({ book, onClose, onRemoveBook }) => {
   // если книга не выбрана — модалку не показываем
   if (!book) return null;
 
-
   // удаление книги из библиотеки
   const handleDelete = () => {
     const ok = window.confirm("Delete this book from your library?");
@@ -13,13 +12,13 @@ export const BookModal = ({ book, onClose, onRemoveBook }) => {
 
   return (
     <div className="fixed inset-0 z-50">
-      {/* overlay (клик по нему закрывает модалку) */}
+      {/* overlay */}
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
 
       {/* окно модалки */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
-        <div className="card-archive w-full max-w-3xl p-6 md:p-8 relative">
-          {/* кнопки в правом верхнем углу */}
+        <div className="card-archive w-full max-w-3xl p-5 sm:p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
+          {/* кнопки */}
           <div className="absolute top-4 right-4 flex items-center gap-2">
             <button
               onClick={handleDelete}
@@ -39,13 +38,13 @@ export const BookModal = ({ book, onClose, onRemoveBook }) => {
             </button>
           </div>
 
-          <h2 className="font-heading text-2xl text-bm-text mb-6 text-center">
+          <h2 className="font-heading text-xl sm:text-2xl text-bm-text mb-6 text-center">
             Book card
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6">
             {/* обложка */}
-            <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10">
+            <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10 max-w-[240px] mx-auto">
               {book.cover ? (
                 <img
                   src={book.cover}
@@ -57,21 +56,18 @@ export const BookModal = ({ book, onClose, onRemoveBook }) => {
                   No cover
                 </div>
               )}
-
               <div className="absolute inset-0 bg-black/10" />
             </div>
 
             {/* текст */}
-            <div className="flex flex-col gap-3 text-bm-text/85">
+            <div className="flex flex-col gap-3 text-bm-text/85 text-sm sm:text-base">
               <p>
                 <span className="text-bm-text/60">Title:</span> {book.title}
               </p>
-
               <p>
                 <span className="text-bm-text/60">Author:</span> {book.author}
               </p>
 
-              {/* жанр оставляем в модалке */}
               {book.genre && (
                 <p>
                   <span className="text-bm-text/60">Genre:</span> {book.genre}
@@ -85,7 +81,7 @@ export const BookModal = ({ book, onClose, onRemoveBook }) => {
                 </p>
               )}
 
-              <div className="mt-4">
+              <div className="mt-3">
                 <p className="text-sm text-bm-text/70 leading-relaxed">
                   {book.description || "No description provided."}
                 </p>
