@@ -1,4 +1,5 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { loadBooks } from "../shared/storage/booksStorage";
 
 
 // Теория по createSlice: 
@@ -8,7 +9,9 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 // Начальное состояние полки "books"
 const initialState = {
-    items: [], // Массив книг
+    // При запуске приложения мы читаем localStorage
+    // и сразу кладем книги в Redux в качестве стартового состояния
+    items: loadBooks(),
 }
 
 // booksSlice.js в данном проекте - полка “books” в общем хранилище Redux
@@ -16,17 +19,13 @@ const booksSlice = createSlice({
     name: 'books', // Имя слайса
     initialState, // Начальное состояние    
     reducers: {
-        // action - “положи массив книг в Redux”
-        setBooksFromApp(state, action) {
-            state.items = action.payload; // action.payload = массив книг
-        },
         // action - "добавь книгу в Redux"
         addBook: {
             reducer(state, action) {
                 state.items.unshift(action.payload); // добавляем книгу в начало массива
             },
             // prepare - функция для подготовки данных перед отправкой в reducer
-            prepare({ book }) {
+            prepare(book) {
                 return {
                     payload: {
                         id: nanoid(), // генерируем уникальный id для книги
@@ -44,7 +43,7 @@ const booksSlice = createSlice({
 });
 
 // Экспортируем action-ы
-export const { setBooksFromApp, addBook, removeBook } = booksSlice.actions;
+export const { addBook, removeBook } = booksSlice.actions;
 
 // reducer — это “движок” slice-а.
 // Store будет знать: "состояние books обслуживает вот этот reducer".

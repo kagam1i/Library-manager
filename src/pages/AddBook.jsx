@@ -9,8 +9,8 @@ export const AddBook = ({ onAddBook }) => {
   const dispatch = useDispatch();
 
   // функция для добавления книги
-  const handleAddBook = (newBook) => {
-    dispatch(addBook(newBook));
+  const handleAddBook = (bookData) => {
+    dispatch(addBook(bookData)); // отправляем action в Redux для добавления книги
   };
 
 

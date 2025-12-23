@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import booksReducer from "./booksSlice.js";
+import { saveBooks } from "../shared/storage/booksStorage";
+import { selectBooks } from "./booksSlice.js";
 
 // store.js в данном проекте - общий “шкаф” для всего состояния приложения
 
@@ -13,6 +15,14 @@ export const store = configureStore({
     reducer: {
         books: booksReducer, // Полка “books” обслуживается booksReducer-ом
     }
+});
+
+// Подписываемся на изменения в store
+store.subscribe(() => {
+    // При любом изменении store сохраняем книги в LocalStorage
+    const state = store.getState(); // получаем текущее состояние store
+    const books = selectBooks(state); // читаем книги из состояния
+    saveBooks(books); // сохраняем книги в LocalStorage
 });
 
 
