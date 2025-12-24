@@ -2,8 +2,12 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Field } from "../components/UI/Field";
 import { signUp } from "../redux/authSlice";
+import { useDispatch } from "react-redux";
 
 export const SignUp = () => {
+
+  const dispatch = useDispatch()
+
 
   const navigate = useNavigate();
 

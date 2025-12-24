@@ -3,8 +3,12 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Field } from '../components/UI/Field'
 import { signIn } from "../redux/authSlice";
+import { useDispatch } from 'react-redux';
+
 
 export const SignIn = () => {
+
+  const dispatch = useDispatch()
 
   const navigate = useNavigate(); // переход на другую страницу с помощью кода
 

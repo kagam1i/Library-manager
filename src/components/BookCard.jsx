@@ -2,12 +2,13 @@ export const BookCard = ({ book, onOpen }) => {
   return (
     <div className="card-archive p-4 flex flex-col gap-4 max-w-[260px] mx-auto">
       {/* обложка */}
-      <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10">
+      <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden border border-white/10 bg-black/20">
         {book.cover ? (
           <img
             src={book.cover}
             alt={book.title}
             className="h-full w-full object-cover"
+            loading="lazy"
           />
         ) : (
           <div className="h-full w-full flex items-center justify-center text-sm text-bm-text/40">
@@ -25,9 +26,7 @@ export const BookCard = ({ book, onOpen }) => {
           {book.title}
         </h3>
 
-        <p className="text-sm text-bm-text/65 mt-1">
-          {book.author}
-        </p>
+        <p className="text-sm text-bm-text/65 mt-1">{book.author}</p>
       </div>
 
       {/* кнопка */}

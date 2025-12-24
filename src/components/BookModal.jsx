@@ -44,12 +44,13 @@ export const BookModal = ({ book, onClose, onRemoveBook }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6">
             {/* обложка */}
-            <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10 max-w-[240px] mx-auto">
+            <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10 bg-black/20 max-w-[240px] mx-auto">
               {book.cover ? (
                 <img
                   src={book.cover}
                   alt={book.title}
                   className="h-full w-full object-cover"
+                  loading="lazy"
                 />
               ) : (
                 <div className="h-full w-full flex items-center justify-center text-sm text-bm-text/40">

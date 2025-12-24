@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {Field} from './UI/Field'
-// import CoverDetective from '../../public/detective.jpg'
-// import CoverFantasy from '../../public/fantasy.jpg'
-// import CoverRoman from '../../public/roman.jpg'
+import { Field } from './UI/Field'
+
 
 export const BookForm = ({ onAddBook }) => {
 
@@ -13,32 +11,22 @@ export const BookForm = ({ onAddBook }) => {
   const [author, setAuthor] = useState('');
   const [publishedAt, setPublishedAt] = useState('');
   const [genre, setGenre] = useState('');
-  const [cover, setCover] = useState(null); // File
   const [description, setDescription] = useState('')
 
+
+  const [cover, setCover] = useState(null); // File
+  const [coverPreview, setCoverPreview] = useState("");
+
+  const [touched, setTouched] = useState({
+    title: false,
+    author: false,
+    publishedAt: false,
+    genre: false,
+    description: false,
+    cover: false,
+  });
+
   const [error, setError] = useState({})
-  const [touched, setTouched] = useState({});
-
-
-  // проверка можно ли сохранить книгу
-  // Метод trim() удаляет пробельные символы с начала и конца строки.
-  const canSubmit =
-    title.trim().length >= 2 &&
-    author.trim().length >= 2 &&
-    publishedAt !== "" &&
-    genre.trim().length > 0 &&
-    description.trim().length > 0 &&
-    cover !== null;
-
-  // загрузка обложки
-  const handleCoverChange = (event) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    setCover(file);
-
-    setError((prev) => ({ ...prev, cover: undefined }))
-  }
 
   // валидация полей формы
   const validate = () => {
@@ -56,6 +44,44 @@ export const BookForm = ({ onAddBook }) => {
     return Object.keys(nextError).length === 0;
 
   }
+
+
+  // загрузка обложки
+  const handleCoverChange = (event) => {
+    const file = event.target.files?.[0];
+
+    setTouched((prev) => ({ ...prev, cover: true }));
+
+    if (!file) {
+      setCover(null);
+      setCoverPreview("");
+      return;
+    }
+
+    setCover(file);
+
+    // читаем картинку и делаем dataURL, чтобы:
+    // 1) показать превью сразу в форме
+    // 2) сохранить обложку в Redux + localStorage (без бекенда)
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCoverPreview(String(reader.result));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // проверка можно ли сохранить книгу
+  // Метод trim() удаляет пробельные символы с начала и конца строки.
+  const canSubmit =
+    title.trim().length >= 2 &&
+    author.trim().length >= 2 &&
+    publishedAt !== "" &&
+    genre.trim().length > 0 &&
+    description.trim().length > 0 &&
+    cover !== null;
+
+
+
 
 
   const handleBlur = (fieldName) => {
@@ -87,15 +113,12 @@ export const BookForm = ({ onAddBook }) => {
 
     const book = {
       // Метод crypto.randomUUID() является текущим стандартом для генерации уникальных ID-значений в современных окружениях. 
-      id: crypto.randomUUID(),
       title: title.trim(),
       author: author.trim(),
       publishedAt: publishedAt,
       genre: genre.trim(),
       description: description.trim(),
-
-      // пока сохраняем только имя файла
-      coverName: cover.name,
+      cover: coverPreview, // dataURL
     }
 
     onAddBook(book) // передаем книгу назад родителю, т.е.в App.js
@@ -106,6 +129,7 @@ export const BookForm = ({ onAddBook }) => {
     setPublishedAt("");
     setGenre("");
     setCover(null);
+    setCoverPreview("");
     setDescription("");
 
 
@@ -188,18 +212,28 @@ export const BookForm = ({ onAddBook }) => {
 
 
           <Field label="Cover image *" error={touched.cover && error.cover}>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleCoverChange}
-              onBlur={() => handleBlur("cover")}
-              className="block w-full text-sm text-bm-text/70
-               file:mr-4 file:rounded-full file:border-0
-               file:bg-white/10 file:px-4 file:py-2
-               file:text-bm-text file:hover:bg-white/15
-               transition"
-            />
+            <div className="flex items-center gap-3">
+              <label
+                className="inline-flex items-center justify-center rounded-full px-4 py-2
+                 border border-white/15 bg-black/20 text-bm-text/80
+                 hover:bg-black/30 transition cursor-pointer"
+              >
+                Choose file
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleCoverChange}
+                  onBlur={() => handleBlur("cover")}
+                  className="hidden"
+                />
+              </label>
+
+              <span className="text-sm text-bm-text/60 truncate max-w-[240px]">
+                {cover ? cover.name : "No file chosen"}
+              </span>
+            </div>
           </Field>
+
 
 
           <div className="mt-2 flex justify-end">
@@ -221,21 +255,3 @@ export const BookForm = ({ onAddBook }) => {
 };
 
 
-
-
-
-
-
-// Сделать плавное появление ошибок, Сделать SignIn / SignUp
-
-
-// 👉 Следующий шаг — Library.jsx
-// Мы:
-
-// используем эти поля
-
-// научимся .map()
-
-// увидим, зачем реально нужен id
-
-// подготовим код к Redux
