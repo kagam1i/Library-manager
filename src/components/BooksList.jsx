@@ -9,8 +9,8 @@ export const BooksList = ({ books = [], allBooks = [], onRemoveBook }) => {
 
   const hasBooksInLibrary = allBooks.length > 0;
 
-// удаление книги:
-// просим "внешний уровень" (страницу Library) удалить книгу 
+  // удаление книги:
+  // просим "внешний уровень" (страницу Library) удалить книгу 
   const handleDelete = (id) => {
     onRemoveBook?.(id);
     setSelectedBook(null);
@@ -24,7 +24,16 @@ export const BooksList = ({ books = [], allBooks = [], onRemoveBook }) => {
   return (
     <>
       {/* grid карточек */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        className="
+          grid
+          grid-cols-1
+          sm:grid-cols-2
+          lg:grid-cols-3
+          gap-4 sm:gap-6
+          justify-items-center
+        "
+      >
         {books.map((book) => (
           <BookCard
             key={book.id}
