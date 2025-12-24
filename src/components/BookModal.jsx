@@ -16,31 +16,34 @@ export const BookModal = ({ book, onClose, onRemoveBook }) => {
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
 
       {/* окно модалки */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
-        <div className="card-archive w-full max-w-3xl p-5 sm:p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
-          {/* кнопки */}
-          <div className="absolute top-4 right-4 flex items-center gap-2">
-            <button
-              onClick={handleDelete}
-              className="px-3 py-1.5 rounded-full text-xs
-                         border border-white/20 bg-black/30 text-bm-text/80
-                         hover:bg-black/40 transition"
-            >
-              Delete
-            </button>
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-6">
+        <div className="card-archive w-full max-w-3xl p-4 sm:p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+          {/* ШАПКА МОДАЛКИ (чтобы ничего не наезжало на мобилке) */}
+          <div className="flex items-center justify-between gap-3 mb-5">
+            <h2 className="font-heading text-xl sm:text-2xl text-bm-text">
+              Book card
+            </h2>
 
-            <button
-              onClick={onClose}
-              className="w-8 h-8 rounded-full border border-white/20
-                         text-bm-text/70 bg-black/30 hover:bg-black/40 transition"
-            >
-              ✕
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={handleDelete}
+                className="px-3 py-1.5 rounded-full text-xs
+                           border border-white/20 bg-black/30 text-bm-text/80
+                           hover:bg-black/40 transition"
+              >
+                Delete
+              </button>
+
+              <button
+                onClick={onClose}
+                className="w-8 h-8 rounded-full border border-white/20
+                           text-bm-text/70 bg-black/30 hover:bg-black/40 transition"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
           </div>
-
-          <h2 className="font-heading text-xl sm:text-2xl text-bm-text mb-6 text-center">
-            Book card
-          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6">
             {/* обложка */}
